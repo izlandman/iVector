@@ -88,4 +88,5 @@ end
 ivScores = reshape(ivScores', speakers*channels* speakers, 1);
 figure;
 eer = compute_eer(ivScores, answers, true);
+display(eer);
 end

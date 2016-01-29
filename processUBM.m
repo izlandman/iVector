@@ -41,5 +41,5 @@ ylabel('Test # (Channel x Speaker)'); xlabel('Model #');
 colorbar; drawnow; axis xy;
 figure(2);
 eer = compute_eer(gmm_scores, answers, true);
-
+display(eer);
 end
