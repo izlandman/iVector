@@ -4,10 +4,19 @@
 % file name needs only be '_xx_xx' of coefficients and window size
 function processUBM(file_name, mixtures,iterations, ds_factor, workers)
 
-coeff_file = ['mel_coef',file_name,'.mat'];
+close all;
+
+% input file
+mel_file = ['melData\mel_coef',file_name,'.mat'];
+% output file
+ubm_file
+output_file = ['./ubm/ubm_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),file_name,'.mat'];
 % the variable loaded is set_c
-load(coeff_file);
-output_file = ['ubm',file_name,'.mat'];
+load(mel_file);
+if( exist('ubm','dir') == 0 )
+    mkdir('ubm');
+end
+
 [speakers, channels] = size(set_c);
 gmm_speakers = cell(speakers,1);
 

@@ -5,13 +5,35 @@
 % instead of being stored in memory
 
 
-function processSPH(folder)
+function processSPH(folder,varargin)
+
+% set default parameters in the event none are supplied
+
+% time in seconds
+mel_window = 0.020;
+% coefficients past the 0th
+mel_coeff = 12;
+% the sphere files are long, specify how many sections to break them into
+channels = 10;
+
+display( nargin );
+if( nargin > 1 )
+    mel_window = varargin{1};
+end
+
 default_pathway = '/nist2001/sph/DEVTEST/TRAIN/MALE';
 default_extension = '*.sph';
 
 default_target = [ folder , default_pathway ,'/', default_extension ];
 
 files = dir( default_target );
+all_dir = files([files(:).isdir]);
+num_dir = numel(all_dir);
+tags = cell(5,1);
+for k=1:num_dir
+    tags{k}  = all_dir(k).name;
+end
+mel_Count = sum( cellfun(@(S) strcmp('melData*',S), tags) );
 
 file_count = length(files);
 
@@ -22,11 +44,6 @@ WRD = raw_data;
 PHN = raw_data;
 FFX = raw_data;
 
-% time in seconds
-mel_window = 0.020;
-% coefficients past the 0th
-mel_coeff = 12;
-channels = 10;
 set_c = cell(file_count,channels);
 set_tc = set_c;
 
@@ -82,9 +99,22 @@ for i = 1 : file_count
     end
 end
 
+
+mel_folder = ['melData_',num2str(mel_count)];
 % save the generated coefficents and time stamps
-c_save_file = ['mel_coef_', num2str(mel_coeff), '_', num2str(mel_window*1000), '_', num2str(channels), '.mat'];
-tc_save_file = ['mel_time_', num2str(mel_coeff), '_', num2str(mel_window*1000), '_', num2str(channels),'.mat'];
+if( exist(mel_folder,'dir') == 0)
+    % directy does not exist, makeone
+    mkdir(mel_folder);
+end
+c_save_file = ['./melData/data_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels), '.mat'];
+tc_save_file = ['./melData/time_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.mat'];
+listing_save_file = ['./melData/list_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.dat'];
+
+fId = fopen(listing_save_file,'wt');
+for i=1:file_count 
+    fprintf(fId, '%s\n',files(i).name);
+end
+fclose(fId);
 
 if ( exist(c_save_file,'file') == 2 )
     display('data already exists. deleting and recreating.');
