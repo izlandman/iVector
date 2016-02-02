@@ -1,5 +1,5 @@
 % returns the folders that matches the search query
-function result = findFolderMatch(query,varargin)
+function result = findDirectoryMatch(query,varargin)
 
 % if a second argument is given, use it as the directory location
 if ( nargin > 1 )

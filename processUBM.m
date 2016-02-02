@@ -6,20 +6,25 @@ function processUBM(folder_name, mixtures,iterations, ds_factor, workers)
 
 close all;
 
-files = dir();
+% find folder matching folder_name query
+target_folder = findDirectoryMatch(folder_name);
+% input file is the one that starts with data_
+mel_file = findDirectoryMatch('data',target_folder{1});
+% remove index of mel folder foro use in ubm foldername
+mel_index = strsplit(target_folder{1},'_');
 
-
-% input file
-mel_file = ['melData\mel_coef',file_name,'.mat'];
-% output file
-ubm_file
-output_file = ['./ubm/ubm_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),file_name,'.mat'];
-% the variable loaded is set_c
-load(mel_file);
-if( exist('ubm','dir') == 0 )
-    mkdir('ubm');
+% make new ubm folder
+ubm_folder = ['ubm_',num2str(mel_index{2})];
+% save the generated coefficents and time stamps
+if( exist(ubm_folder,'dir') == 0)
+    % directy does not exist, makeone
+    mkdir(ubm_folder);
 end
 
+% output file
+output_file = ['./',ubm_folder,'/ubm_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),'.mat'];
+% the variable loaded is set_c
+load([target_folder{1},'/',mel_file{1}]);
 [speakers, channels] = size(set_c);
 gmm_speakers = cell(speakers,1);
 
