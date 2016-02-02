@@ -17,8 +17,15 @@ mel_coeff = 12;
 channels = 10;
 
 display( nargin );
-if( nargin > 1 )
-    mel_window = varargin{1};
+if( nargin == 2 )
+    channels = varargin{1};
+elseif( nargin == 3)
+    channels = varargin{1};
+    mel_coeff = varargin{2};
+elseif( nargin == 4)
+    channels = varargin{1};
+    mel_coeff = varargin{2};
+    mel_window= varargin{3};
 end
 
 default_pathway = '/nist2001/sph/DEVTEST/TRAIN/MALE';
@@ -26,15 +33,17 @@ default_extension = '*.sph';
 
 default_target = [ folder , default_pathway ,'/', default_extension ];
 
-files = dir( default_target );
+files = dir();
 all_dir = files([files(:).isdir]);
 num_dir = numel(all_dir);
 tags = cell(5,1);
 for k=1:num_dir
     tags{k}  = all_dir(k).name;
 end
-mel_count = sum( cellfun(@(S) strcmp('melData*',S), tags) );
+mel_count = cellfun(@(S) strfind(S,'melData'), tags,'uniformoutput',0);
+mel_count = sum( [mel_count{:}] );
 
+files = dir( default_target );
 file_count = length(files);
 
 % build variables that will be returned from readsph
@@ -111,7 +120,7 @@ tc_save_file = ['./',mel_folder,'/time_melCoef', num2str(mel_coeff), '_melWin', 
 listing_save_file = ['./',mel_folder,'/list_melCoef', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.dat'];
 
 fId = fopen(listing_save_file,'wt');
-for i=1:file_count 
+for i=1:file_count
     fprintf(fId, '%s\n',files(i).name);
 end
 fclose(fId);
