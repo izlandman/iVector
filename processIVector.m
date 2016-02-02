@@ -1,17 +1,25 @@
 % assume processUBM has been run already which means a ubm already exists
 % for the given data.
 
-function processIVector(file_name, tvDim, iterations, workers)
+function processIVector(mel_index, ubm_index, tvDim, iterations, workers)
 
 close all;
 
-coeff_file = ['mel_coef',file_name,'.mat'];
-ubm_file = ['ubm',file_name,'.mat'];
+% find folder matching folder_name query
+target_folder = ['melData_',num2str(mel_index)];
+% input file is the one that starts with data_
+mel_file = findDirectoryMatch('data',target_folder);
 % the variable loaded is set_c, features from melcep
-load(coeff_file);
+load([target_folder,'\',mel_file{1}]);
 [speakers, channels] = size(set_c);
+
+% find folder matching folder name
+target_folder = ['ubm_',num2str(mel_index)];
+% find chosen ubm file
+ubm_file = findDirectoryMatch(['ubm_',num2str(ubm_index)],target_folder);
+
 % the variable loaded is ubm, ubm from melcep
-load(ubm_file);
+load([target_folder,'\',ubm_file{1}]);
 ubm = gmm;
 clear gmm;
 

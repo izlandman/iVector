@@ -36,7 +36,7 @@ default_target = [ folder , default_pathway ,'/', default_extension ];
 files = dir();
 all_dir = files([files(:).isdir]);
 num_dir = numel(all_dir);
-tags = cell(5,1);
+tags = cell(num_dir,1);
 for k=1:num_dir
     tags{k}  = all_dir(k).name;
 end
