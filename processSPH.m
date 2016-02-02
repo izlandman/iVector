@@ -33,7 +33,7 @@ tags = cell(5,1);
 for k=1:num_dir
     tags{k}  = all_dir(k).name;
 end
-mel_Count = sum( cellfun(@(S) strcmp('melData*',S), tags) );
+mel_count = sum( cellfun(@(S) strcmp('melData*',S), tags) );
 
 file_count = length(files);
 
@@ -106,9 +106,9 @@ if( exist(mel_folder,'dir') == 0)
     % directy does not exist, makeone
     mkdir(mel_folder);
 end
-c_save_file = ['./melData/data_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels), '.mat'];
-tc_save_file = ['./melData/time_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.mat'];
-listing_save_file = ['./melData/list_melCoef_', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.dat'];
+c_save_file = ['./',mel_folder,'/data_melCoef', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels), '.mat'];
+tc_save_file = ['./',mel_folder,'/time_melCoef', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.mat'];
+listing_save_file = ['./',mel_folder,'/list_melCoef', num2str(mel_coeff), '_melWin', num2str(mel_window*1000), '_c', num2str(channels),'.dat'];
 
 fId = fopen(listing_save_file,'wt');
 for i=1:file_count 

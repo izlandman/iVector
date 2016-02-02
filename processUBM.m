@@ -2,9 +2,12 @@
 % universal background model
 
 % file name needs only be '_xx_xx' of coefficients and window size
-function processUBM(file_name, mixtures,iterations, ds_factor, workers)
+function processUBM(folder_name, mixtures,iterations, ds_factor, workers)
 
 close all;
+
+files = dir();
+
 
 % input file
 mel_file = ['melData\mel_coef',file_name,'.mat'];
