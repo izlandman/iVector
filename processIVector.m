@@ -23,6 +23,16 @@ load([target_folder,'\',ubm_file{1}]);
 ubm = gmm;
 clear gmm;
 
+% create folder and file name for i-vector data
+target_folder = ['ivector_',num2str(mel_index),'_',num2str(ubm_index)];
+
+if( exist(target_folder,'dir') == 0)
+    % directy does not exist, makeone
+    mkdir(target_folder);
+end
+
+ivector_file = [target_folder,'\','ivector_','tvdim_',num2str(tvDim),'.mat'];
+
 sID = (1:1:speakers)';
 speakerID = repmat(sID,1,channels);
 
@@ -75,6 +85,13 @@ for s=1:speakers
         testIVs(:, s, c) = extract_ivector([N; F], ubm, T);
     end
 end
+
+% check if file exists and save
+if ( exist(ivector_file,'file') == 2 )
+    delete(ivector_file);
+end
+save(ivector_file,'testIVs');
+
 testIVbySpeaker = reshape(permute(testIVs, [1 3 2]), ...
                             tvDim, speakers*channels);
 finalTestIVs = V(:, 1:ldaDim)' * testIVbySpeaker;
