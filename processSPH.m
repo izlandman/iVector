@@ -16,7 +16,6 @@ mel_coeff = 12;
 % the sphere files are long, specify how many sections to break them into
 channels = 10;
 
-display( nargin );
 if( nargin == 2 )
     channels = varargin{1};
 elseif( nargin == 3)
