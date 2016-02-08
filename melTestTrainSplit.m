@@ -1,4 +1,4 @@
-function [test_set,train_set] = melTestTrainSplit( coefficents, split_percent )
+function [test_set,train_set] = melTestTrainSplit( coefficents, split_percent, filename )
 
 % input size
 [row, column] = size(coefficents);
@@ -39,5 +39,29 @@ temp_set= train_set';
 empties=find(cellfun(@isempty,temp_set));
 temp_set(empties)=[];
 train_set = reshape(temp_set,column-column_count,row)';
-    
+
+% save split because it'll be unique every time you run this!
+folder_name = ['test_train-', filename];
+if( exist(folder_name,'dir') == 0)
+    % directy does not exist, makeone
+    mkdir(folder_name);
+end
+
+name_count = folderNameCount('perc',folder_name);
+
+last_name = [num2str(name_count),'_perc', num2str(split_percent),...
+    '_', filename];
+
+test_save = [folder_name,'/','test_',last_name,'.mat'];
+train_save = [folder_name,'/','train_',last_name,'.mat'];
+
+if ( exist(test_save,'file') == 2 )
+    delete(test_save,train_save);
+    save(test_save,'test_set');
+    save(train_save,'train_set');
+else
+    save(test_save,'test_set');
+    save(train_save,'train_set');
+end
+
 end

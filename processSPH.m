@@ -5,7 +5,7 @@
 % instead of being stored in memory
 
 
-function processSPH(folder,varargin)
+function c_save_file = processSPH(folder,varargin)
 
 % set default parameters in the event none are supplied
 
