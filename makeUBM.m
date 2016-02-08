@@ -1,26 +1,17 @@
-function makeUBM(input_data, mel_index,  mixtures, iterations, ds_factor, workers)
+function makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
 
-% make new ubm folder
-ubm_folder = ['ubm_',num2str(mel_index)];
-% save the generated coefficents and time stamps
-if( exist(ubm_folder,'dir') == 0)
-    % directy does not exist, makeone
-    mkdir(ubm_folder);
-end
+% load the stored data into a new variable name
+file_type = [file_type,'_',num2str(mel_index)];
+data_file = findDirectoryMatch(file_type,folder_name);
+data_file = load([folder_name,'\',data_file{1}]);
+var_name = fieldnames(data_file);
+input_data = data_file.(var_name{1});
 
 % count ubm files alread present
-files = dir(ubm_folder);
-all_files = files(~[files(:).isdir]);
-num_files = numel(all_files);
-tags = cell(num_files,1);
-for k=1:num_files
-    tags{k}  = all_files(k).name;
-end
-ubm_count = cellfun(@(S) strfind(S,'ubm'), tags,'uniformoutput',0);
-ubm_count = sum( [ubm_count{:}] );
+ubm_count = folderNameCount('ubm',folder_name);
 
 % output file
-output_file = ['./',ubm_folder,'/ubm_',num2str(ubm_count),'_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),'.mat'];
+output_file = ['./',folder_name,'/ubm_',num2str(ubm_count),'_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),'.mat'];
 
 % file parameters
 [speakers, channels] = size(input_data);
