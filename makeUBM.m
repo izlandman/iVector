@@ -1,4 +1,4 @@
-function makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
+function ubm = makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
 
 % load the stored data into a new variable name
 file_type = [file_type,'_',num2str(mel_index)];
@@ -46,7 +46,7 @@ title('Speaker Verification Likelihood (GMM Model)');
 ylabel('Test # (Channel x Speaker)'); xlabel('Model #');
 colorbar; drawnow; axis xy;
 figure(2);
-eer = compute_eer(gmm_scores, answers, true);
+eer = compute_eer_2(gmm_scores, answers, true);
 display(eer);
 
 end

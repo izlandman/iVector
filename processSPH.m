@@ -80,7 +80,8 @@ for i = 1 : file_count
             
             % turn raw_data into features from recording based upon window
             data_index = 1 + data_window*(j-1) + channel_shift;
-            data_mel = raw_data(data_index:data_index+data_window-1);
+            data_end = data_index + data_window - 1;
+            data_mel = raw_data(data_index:data_end);
             % try to avoid knowingly giving mel data that is empty
             if ( sum(abs(data_mel)) ~= 0 )
                 [c(:,j), tc(:,j)] = melcepst( ...
@@ -93,7 +94,7 @@ for i = 1 : file_count
             end
         end
         
-        channel_shift = data_break * k;
+        channel_shift = data_end;
         if ( data_index+data_window-1 + data_break > raw_data_length )
             data_break = raw_data_length - ( data_index+data_window-1 );
         end
