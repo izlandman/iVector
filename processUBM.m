@@ -2,7 +2,7 @@
 % universal background model
 
 % file name needs only be '_xx_xx' of coefficients and window size
-function processUBM(mel_index, mixtures,iterations, ds_factor, workers)
+function processUBM(mel_index, mixtures, iterations, ds_factor, workers)
 
 close all;
 
