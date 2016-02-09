@@ -1,4 +1,7 @@
-function eer = scoreIvector(ubm_data, train_data, test_data, workers)
+% return the error rate between the test and training i-vectors, while also
+% returning the model_ivs and the final_test_ivs too
+
+function [eer, model_IVs, final_test_IVs ] = scoreIvector(ubm_data, train_data, test_data, workers)
 
 % define variables needed for script
 [speakers, channels] = size(train_data);
@@ -28,7 +31,7 @@ for s=1:speakers
         develop_IVs(:, s, c) = extract_ivector(stats{s, c}, ubm_data, T);
     end
 end
-
+% save develop_IVs
 % Now do LDA on the iVectors to find the dimensions that matter.
 lda_dim = min(100, speakers-1);
 devevlop_IV_Speaker = reshape(develop_IVs, tv_dim, speakers*channels);
@@ -46,6 +49,9 @@ pLDA = gplda_em(final_develop_IVs, speaker_id(:), nphi, iterations);
 % reuse the development set.
 average_IVs = mean(develop_IVs, 3);           % Average IVs across channels.
 model_IVs = V(:, 1:lda_dim)' * average_IVs;
+
+% save model_IVs as those are being compared to the test data
+
 
 % Now compute the ivectors for the test set 
 % and score the utterances against the models
