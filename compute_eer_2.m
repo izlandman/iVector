@@ -58,6 +58,7 @@ end
 
 if showfig
 %     figure
+    figure('numbertitle','off','name','error rate');
     plot_det(FPR, FNR)
 end
 

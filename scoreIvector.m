@@ -81,7 +81,6 @@ for ix = 1 : speakers,
 end
 
 iv_scores = reshape(iv_scores', speakers_test*channels_test* speakers_test, 1);
-figure('numbertitle','off','name','error rate');
-eer = compute_eer_2(iv_scores, answers, true);
+eer = compute_eer_2(iv_scores, answers, false);
 
 end

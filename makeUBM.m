@@ -1,4 +1,4 @@
-function ubm = makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
+function [ubm,eer] = makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
 
 % load the stored data into a new variable name
 file_type = [file_type,'_',num2str(mel_index)];
@@ -40,13 +40,12 @@ end
 gmm_scores = score_gmm_trials(gmm_speakers, reshape(input_data', speakers*channels,1), trials, ubm);
 
 % plots!
-figure(1);
 imagesc(reshape(gmm_scores,speakers*channels, speakers))
 title('Speaker Verification Likelihood (GMM Model)');
 ylabel('Test # (Channel x Speaker)'); xlabel('Model #');
 colorbar; drawnow; axis xy;
 figure(2);
-eer = compute_eer_2(gmm_scores, answers, true);
+eer = compute_eer_2(gmm_scores, answers, false);
 display(eer);
 
 end

@@ -1,7 +1,7 @@
 % pass in two matrices of i-vectors, compare each train vector against all
 % the test vectors to 'match' them. generate error/accuracy report
 
-function pruned_result = findIvectorMatch(train,test)
+function [pruned_result,t_p_percent] = findIvectorMatch(train,test)
 
 % row gives the number of LDA dimensions that were significant
 % column gives the number of original models
@@ -32,6 +32,7 @@ v1 = repmat(v1,column_test/column_model,1);
 labels = reshape(v1,column_test,1);
 
 true_positive = sum(labels==min_distance_index);
-display(['The true positive percentage is ',num2str(true_positive/column_test)]);
+t_p_percent = true_positive/column_test;
+display(['The true positive percentage is ',num2str(t_p_percent)]);
 
 end
