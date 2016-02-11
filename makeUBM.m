@@ -1,9 +1,7 @@
-function [ubm,eer] = makeUBM(folder_name, file_type, mel_index,  mixtures, iterations, ds_factor, workers)
+function [ubm,eer] = makeUBM(folder_name, data_file,  mixtures, iterations, ds_factor, workers)
 
 % load the stored data into a new variable name
-file_type = [file_type,'_',num2str(mel_index)];
-data_file = findDirectoryMatch(file_type,folder_name);
-data_file = load([folder_name,'\',data_file{1}]);
+data_file = load(data_file);
 var_name = fieldnames(data_file);
 input_data = data_file.(var_name{1});
 

@@ -49,11 +49,19 @@ end
 
 name_count = folderNameCount('perc',folder_name);
 
-last_name = [num2str(name_count),'_perc', num2str(split_percent),...
-    '_', filename];
+last_name = [num2str(name_count),'_', filename];
 
-test_save = [folder_name,'/','test_',last_name,'.mat'];
-train_save = [folder_name,'/','train_',last_name,'.mat'];
+% subfolder name, label the split
+percent_count = folderNameCount('perct_',folder_name);
+middle_name = ['perct_', num2str(split_percent),'_',num2str(percent_count)];
+
+test_save = [folder_name,'/',middle_name,'/','test_',last_name,'.mat'];
+train_save = [folder_name,'/',middle_name,'/','train_',last_name,'.mat'];
+
+% check to see if folder exists
+if ( exist( [folder_name,'/',middle_name], 'dir' ) == 0 )
+    mkdir( [folder_name,'/',middle_name]);
+end
 
 if ( exist(test_save,'file') == 2 )
     delete(test_save,train_save);

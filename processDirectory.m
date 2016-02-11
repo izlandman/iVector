@@ -7,9 +7,10 @@ else
     workers = varargin{1};
 end
 
-% gather ubm files
+% gather ubm files, there will be two extra files that contain error and
+% structures that should not be compared
 ubm_files = findDirectoryMatch('ubm',folder_name);
-ubm_count = numel(ubm_files);
+ubm_count = numel(ubm_files) - 2;
 
 % father test files
 test_files = findDirectoryMatch('test',folder_name);
@@ -42,5 +43,11 @@ else
         end
     end
 end
+
+% save results!
+
+save( [folder_name,'/','_errorPLDA.mat'], 'error_PLDA');
+save( [folder_name,'/','_errorSens.mat'], 'true_positive');
+save( [folder_name,'/','_ivMap.mat'], 'iv_map');
 
 end
