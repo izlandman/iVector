@@ -3,7 +3,9 @@
 % speakers against each other, we're going to compare each channel against
 % the other channels.
 
-function feat_final = channelIvector(file_name,segments, mel_window, mel_coef)
+function set_c = processEDF(file_name,segments, mel_window, mel_coef)
+
+[path,name,ext] = fileparts(file_name);
 
 % hard code to only use specific channels
 channels = 64;
@@ -20,7 +22,7 @@ segment_window = floor(data_segment/data_window);
 
 % setup results matrix
 mfcc_feat = zeros(mel_coef, segments);
-feat_final = cell(channels, segments);
+set_c = cell(channels, segments);
 
 % mel options, ensure linear frequency scaling, hence the f
 mel_options = 'Mtaf';
@@ -34,8 +36,19 @@ for q=1:channels
             data_mel = edf_data(q,data_index:data_end);
             [mfcc_feat,~] = melcepst( data_mel, sample_rate, mel_options, mel_coef);
         end
-        feat_final{q,w} = mfcc_feat;
+        set_c{q,w} = mfcc_feat;
     end
 end
+
+% folder to store results of feature creation
+mel_folder = ['edfData_',name];
+if( exist(mel_folder,'dir') == 0)
+    % directy does not exist, makeone
+    mkdir(mel_folder);
+end
+
+save_file = [mel_folder,'/','data_melCoef',num2str(mel_coef),...
+    '_melWin',num2str(mel_window*1000),'_c',num2str(segments),'.mat'];
+save(save_file,'set_c');
 
 end
