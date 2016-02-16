@@ -24,7 +24,6 @@ for k=1:train_count
     for i=1:mixture_count
         input_file = [folder_name,'\',train_files{k}];
         [ubm_results{k,i}, error_ubm(k,i)]=makeUBM(folder_name,input_file,mixtures(i),iterations, ds_factor, workers);
-        close;
     end
 end
 

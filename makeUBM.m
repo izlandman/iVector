@@ -38,12 +38,13 @@ end
 gmm_scores = score_gmm_trials(gmm_speakers, reshape(input_data', speakers*channels,1), trials, ubm);
 
 % plots!
+figure('numbertitle','off','name','ubm  results');
 imagesc(reshape(gmm_scores,speakers*channels, speakers))
 title('Speaker Verification Likelihood (GMM Model)');
 ylabel('Test # (Channel x Speaker)'); xlabel('Model #');
 colorbar; drawnow; axis xy;
-figure(2);
-eer = compute_eer_2(gmm_scores, answers, false);
+
+eer = compute_eer_2(gmm_scores, answers, true);
 display(eer);
 
 end
