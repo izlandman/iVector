@@ -44,21 +44,6 @@ ttest_16 = ttestFullArray(result(:,:,2));
 
 end
 
-function result = ttestFullArray(data)
-
-[row,column] = size(data);
-result = -1*ones(2,column,row,column);
-
-for i = 1 : column
-    for j = 1 : row
-        for k = 1 : column
-            result(:,i,j,r) = ttest(data(i,j),data(i,r));
-        end
-    end
-end
-
-end
-
 function plotHelp(result,title)
 figure('numbertitle','off','name',title);
 surf(result);
