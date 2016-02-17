@@ -2,43 +2,33 @@ function [test_set,train_set] = melTestTrainSplit( coefficents, split_percent, d
 
 % input size
 [row, column] = size(coefficents);
-% find percent inteveral
-p_interval = 100 / column;
 
-if ( p_interval > 90 )
-    display('This is an unusually high amount of testing data.');
-end
+test_set = cell(row,1);
+data_dip = (cat(1,coefficents{1,:}));
+[sample_count,~] = size(data_dip);
+true_perc = split_percent/100;
+test_index = randperm(sample_count,floor(sample_count*true_perc));
+segments = numel(test_index);
+train_size = floor(sample_count/segments) - 1;
+train_set = cell(row,train_size);
 
-if ( mod(p_interval,split_percent) < p_interval )
-    % split_percent is lower than p_interval, default to p_interval
-    split_percent = p_interval;
-else
-    % use floor to determine split_percent
-    split_percent = floor(split_percent/p_interval) * p_interval;
-end
-
-% turn split_percent into column_count
-column_count = split_percent / 100 * column;
-
-test_set = cell(row,column_count);
-train_set = coefficents;
 % i'd rather not deal with cellfun to solve this problem
 for k=1:row
-    test_index = randperm(column,column_count);
-    % add data to test set
-    data = coefficents(k,:);
-    for j=1:column_count
-        test_set(k,j) = data(test_index(j));
-        % deletes data, but remember to reshape
-        train_set{k,test_index(j)} = [];
+    % put the data back inline to split randomly, don't split a whole chunk
+    % out as that makes the results terrible and isn't really random
+    full_data = (cat(1, coefficents{k,:}));
+    
+    % build test set
+    test_set{k} = full_data(test_index,:);
+    % deletes data, but remember to reshape
+    full_data(test_index,:) = [];
+    [new_count,~] = size(full_data);
+    for i=1:floor(new_count/segments)
+        start_index = (i-1)*segments+1;
+        end_index = start_index + segments-1;
+        train_set{k,i} = full_data(start_index:end_index,:);
     end
 end
-
-% need to rotate to preserve order!
-temp_set= train_set';
-empties=find(cellfun(@isempty,temp_set));
-temp_set(empties)=[];
-train_set = reshape(temp_set,column-column_count,row)';
 
 % save split because it'll be unique every time you run this!
 folder_name = [data_folder,'/','test_train-', file_name];
