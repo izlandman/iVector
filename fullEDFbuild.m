@@ -1,8 +1,8 @@
 
-function fullEDFbuild(file_name, segments, mel_win, mel_coef, split_percent, workers)
+function fullEDFbuild(file_name, channels, segments, mel_win, mel_coef, split_percent, workers)
 
 % this file_name needs to point to the raw edf file
-set_c = processEDF(file_name,segments,mel_win,mel_coef);
+set_c = processEDF(file_name,channels,segments,mel_win,mel_coef);
 
 [path,name,ext] = fileparts(file_name);
 

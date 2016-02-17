@@ -31,6 +31,7 @@ for j=1:matched_count
         result(j,k,2) = testThisThing(set_c,gmm);
     end
     close all;
+    display(j);
 end
 
 plotHelp(result(:,:,1),'gmm-8');

@@ -3,14 +3,12 @@
 % speakers against each other, we're going to compare each channel against
 % the other channels.
 
-function set_c = processEDF(file_name, segments, mel_window, mel_coef)
+function set_c = processEDF(file_name, channels, segments, mel_window, mel_coef)
 
 [path,name,ext] = fileparts(file_name);
 
-% hard code to only use specific channels
-channels = 64;
-
 [edf_header, edf_data] = edfread(file_name);
+
 edf_data = edf_data(1:channels,:);
 sample_rate = edf_header.samples(1);
 samples = length(edf_data(1,:));
