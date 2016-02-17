@@ -3,7 +3,7 @@
 % speakers against each other, we're going to compare each channel against
 % the other channels.
 
-function set_c = processEDF(file_name,segments, mel_window, mel_coef)
+function set_c = processEDF(file_name, segments, mel_window, mel_coef)
 
 [path,name,ext] = fileparts(file_name);
 

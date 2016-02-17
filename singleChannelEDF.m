@@ -34,8 +34,6 @@ if( exist(new_folder,'dir') == 0)
     mkdir(new_folder);
 end
 
-
-
 new_file = [new_folder,'\train_melWin',num2str(window),'_index',num2str(channel_index),...
     '_',num2str(folder_count),'.mat' ];
 
