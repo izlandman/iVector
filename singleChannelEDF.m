@@ -51,23 +51,3 @@ end
 set_c = test_channels;
 
 end
-
-% find files
-function operational_files = findMatchingFiles(folder_name,query,window)
-
-data_files_1 = getAllFiles(folder_name);
-data_files_index = strfind(data_files_1,query);
-
-
-% now, search the known data_files for strings that match the window
-% length. different window lengths cannot be mixed and matched for the UBM
-% process!
-data_index = find(~cellfun(@isempty,data_files_index));
-matching_files = data_files_1(data_index);
-matching_index_1 = strfind(matching_files,['Win',num2str(window)]);
-matching_index_2 = find(~cellfun(@isempty,matching_index_1));
-
-operational_files = matching_files(matching_index_2);
-end
-
-

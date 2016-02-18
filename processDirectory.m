@@ -14,11 +14,20 @@ ubm_count = numel(ubm_files) - 2;
 
 % father test files
 test_files = findDirectoryMatch('test',folder_name);
-test_count = numel(test_files);
 
 % gather train files
 train_files = findDirectoryMatch('train',folder_name);
+
+% if you don't have test and train, it means there is only one set of data.
+% find it and use it instead for both
+if(  isempty(train_files) )
+    train_files = findDirectoryMatch('data_',folder_name);
+end
+if( isempty(test_files) )
+    test_files = train_files;
+end
 train_count = numel(train_files);
+test_count = numel(test_files);
 
 % try to avoid any funny business by verifing the number of files match
 if( train_count ~= test_count )
@@ -31,8 +40,12 @@ else
     
     % loop one set of test/train through all the gmm models
     for i=1:test_count
-        load([folder_name,'\',train_files{i}]);
-        load([folder_name,'\',test_files{i}]);
+        a = load([folder_name,'\',train_files{i}]);
+        b = fieldnames(a);
+        train_set = a.(b{1});
+        a = load([folder_name,'\',test_files{i}]);
+        b = fieldnames(a);
+        test_set = a.(b{1});
         for k=1:ubm_count
             load([folder_name, '\',ubm_files{k}]);
             % score the i-vectors via PLDA

@@ -17,7 +17,7 @@ folder_count = folderNameCount(['perct_',num2str(segments)],[folder_name,'/','te
 
 folder_name = [folder_name,'/','test_train-',new_file,'/perct_',num2str(split_percent),'_',num2str(folder_count)];
 % this folder needs to point into the split percent folder
-populateUBMfolder(folder_name,workers);
+populateUBMfolder(folder_name,workers,1);
 
 % this folder needs to point into the split percent folder
 processDirectory(folder_name);
