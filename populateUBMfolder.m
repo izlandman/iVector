@@ -15,6 +15,9 @@ mixture_count = numel(mixtures);
 % gather train files
 train_files = findDirectoryMatch('train',folder_name);
 test_files = findDirectoryMatch('test',folder_name);
+if(  isempty(train_files) )
+    train_files = findDirectoryMatch('data_',folder_name);
+end
 if( isempty(test_files) )
     test_files = train_files;
 end
@@ -25,15 +28,15 @@ error_ubm = zeros(train_count,mixture_count);
 ubm_results = cell(train_count,mixture_count);
 
 for k=1:train_count
-    for i=1:mixture_count
-        input_file = [folder_name,'\',train_files{k}];
-        test_file = [folder_name,'\',test_files{k}];
+    input_file = [folder_name,'/',train_files{k}];
+    test_file = [folder_name,'/',test_files{k}];
+    for i=1:mixture_count       
         [ubm_results{k,i}, error_ubm(k,i)]=makeUBM(folder_name,...
             input_file,test_file,mixtures(i),iterations, ds_factor, workers);
     end
 end
 
-save( [folder_name,'\','ubm_structs.mat'], 'ubm_results');
-save( [folder_name,'\','ubm_errors.mat'], 'error_ubm');
+save( [folder_name,'/','ubm_structs.mat'], 'ubm_results');
+save( [folder_name,'/','ubm_errors.mat'], 'error_ubm');
 
 end
