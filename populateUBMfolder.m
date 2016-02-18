@@ -15,6 +15,9 @@ mixture_count = numel(mixtures);
 % gather train files
 train_files = findDirectoryMatch('train',folder_name);
 test_files = findDirectoryMatch('test',folder_name);
+if( isempty(test_files) )
+    test_files = train_files;
+end
 train_count = numel(train_files);
 
 % setup variables
