@@ -1,7 +1,7 @@
 % given a known ubm built from train_data, test it against another set of
 % data. either its own training data, or perhaps a different subject's data
 
-function testUBM(train_data,test_data,ubm)
+function [eer,fig_handle] = testUBM(train_data,test_data,ubm)
 
 % file parameters
 [speakers, channels] = size(train_data);
@@ -29,7 +29,7 @@ end
 gmm_scores = score_gmm_trials(gmm_speakers, reshape(test_data', speakers_test*channels_test,1), trials, ubm);
 
 % plots!
-figure('numbertitle','off','name','ubm  results');
+fig_handle = figure('numbertitle','off','name','ubm  results');
 imagesc(reshape(gmm_scores,speakers_test*channels_test, speakers_test))
 title('Channel Verification Likelihood (GMM Model)');
 ylabel('Test # (Channel x Segment)'); xlabel('Channel #');
