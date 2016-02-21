@@ -33,7 +33,7 @@ for s=1:speakers
 end
 % save develop_IVs
 % Now do LDA on the iVectors to find the dimensions that matter.
-lda_dim = min(100, speakers-1);
+lda_dim = min(tv_dim, speakers-1);
 devevlop_IV_Speaker = reshape(develop_IVs, tv_dim, speakers*channels);
 [V,D] = lda(devevlop_IV_Speaker, speaker_id(:));
 final_develop_IVs = V(:, 1:lda_dim)' * devevlop_IV_Speaker;

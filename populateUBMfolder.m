@@ -1,3 +1,5 @@
+% full is set to 1 if you want to see the whole process, otherwise it only
+% makes and saves the ubm
 function [ubm_results,error_ubm]=populateUBMfolder(folder_name,workers,full,varargin)
 
 % hard set iterations at 10 and ds_factor at 1

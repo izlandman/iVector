@@ -1,40 +1,28 @@
-function [test_set,train_set] = melTestTrainSplit( coefficents, split_percent, data_folder, file_name )
+function [test_set,train_set] = melTestTrainSplit_2( coefficents, split_percent, data_folder, file_name )
 
 % input size
 [row, column] = size(coefficents);
 
 test_set = cell(row,1);
+train_set = cell(row,1);
 data_dip = (cat(1,coefficents{1,:}));
-[sample_count,sample_count_2] = size(data_dip);
+[coef_count,sample_count] = size(data_dip);
 true_perc = split_percent/100;
-if( column ~= 1 )
-    test_index = randperm(sample_count,floor(sample_count*true_perc));
-    segments = numel(test_index);
-    train_size = floor(sample_count/segments) - 1;
-    train_set = cell(row,train_size);
-else
-    test_index = randperm(sample_count_2,floor(sample_count_2*true_perc));
-    segments = numel(test_index);
-    train_size = floor(sample_count_2/segments);
-    train_set = cell(row,train_size);
-end
 
-% i'd rather not deal with cellfun to solve this problem
-for k=1:row
-    % put the data back inline to split randomly, don't split a whole chunk
+test_index = randperm(sample_count,floor(sample_count*true_perc));
+
+
+% put the data back inline to split randomly, don't split a whole chunk
     % out as that makes the results terrible and isn't really random
-    full_data = (cat(1, coefficents{k,:}));
     
+
+for k=1:row
+    full_data = (cat(2, coefficents{k,:}));
     % build test set
-    test_set{k} = full_data(test_index,:);
+    test_set{k} = full_data(:,test_index);
     % deletes data, but remember to reshape
-    full_data(test_index,:) = [];
-    [new_count,~] = size(full_data);
-    for i=1:floor(new_count/segments)
-        start_index = (i-1)*segments+1;
-        end_index = start_index + segments-1;
-        train_set{k,i} = full_data(start_index:end_index,:);
-    end
+    full_data(:,test_index) = [];
+    train_set{k} = full_data;
 end
 
 % save split because it'll be unique every time you run this!
