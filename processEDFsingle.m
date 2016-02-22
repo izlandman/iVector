@@ -20,7 +20,7 @@ data_samples = length(edf_data(1,:));
 
 % number of samples per segment
 data_window_size = sample_rate * mel_window;
-data_windows = floor(data_samples/data_window_size);
+data_windows = floor(data_samples/data_window_size) - 1;
 
 % setup results matrix
 mfcc_size = mel_window * sample_rate / 2 - 1;

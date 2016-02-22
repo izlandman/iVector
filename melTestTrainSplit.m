@@ -5,7 +5,7 @@ function [test_set,train_set] = melTestTrainSplit( coefficents, split_percent, d
 
 test_set = cell(row,1);
 data_dip = (cat(1,coefficents{1,:}));
-[sample_count,~] = size(data_dip);
+[~,sample_count] = size(data_dip);
 true_perc = split_percent/100;
 test_index = randperm(sample_count,floor(sample_count*true_perc));
 segments = numel(test_index);
@@ -19,14 +19,14 @@ for k=1:row
     full_data = (cat(1, coefficents{k,:}));
     
     % build test set
-    test_set{k} = full_data(test_index,:);
+    test_set{k} = full_data(:,test_index);
     % deletes data, but remember to reshape
-    full_data(test_index,:) = [];
+    full_data(:,test_index) = [];
     [new_count,~] = size(full_data);
     for i=1:floor(new_count/segments)
         start_index = (i-1)*segments+1;
         end_index = start_index + segments-1;
-        train_set{k,i} = full_data(start_index:end_index,:);
+        train_set{k,i} = full_data(:,start_index:end_index);
     end
 end
 
