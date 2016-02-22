@@ -1,4 +1,4 @@
-function testErrorPlot(test_error)
+function testErrorPlot(test_error,sub)
 
 % row are number of tests, nMixtures
 % column are number of subjects
@@ -7,7 +7,11 @@ function testErrorPlot(test_error)
 % generate proper data labels for subjects
 legend_labels = cell(column,1);
 for i=1:column
-    legend_labels{i} = ['Subject-',num2str(i)];
+    if( sub == 's' )
+        legend_labels{i} = ['Subject-',num2str(i)];
+    elseif( sub == 't')
+        legend_labels{i} = ['Trial-',num2str(i)];
+    end
 end
 
 % generate x axis tick labels
@@ -29,7 +33,7 @@ end
 legend(legend_labels,'location','eastoutside');
 ylabel('EER %','FontSize',14);
 xlabel('Gaussian Mixtures','FontSize',14);
-title('Subect Train Set: EER versus Gaussian Mixture Size','FontSize',14)
+title('Subject Training Set: EER versus Gaussian Mixture Size','FontSize',14)
 set(ax,'XTick',[1:row]);
 set(ax,'XTickLabel',x_labels);
 set(ax,'FontSize',14);
