@@ -69,7 +69,11 @@ final_test_IVs = V(:, 1:lda_dim)' * test_IV_Speaker;
 % Now score the models with all the test data.
 iv_scores = score_gplda_trials(pLDA, model_IVs, final_test_IVs);
 figure('numbertitle','off','name','i-vector confusion');
-imagesc(iv_scores)
+
+% okay, for some reason it often returns imaginary values?
+iv_scores_norm = bsxfun(@rdivide,iv_scores,sum(iv_scores));
+
+% imagesc(iv_scores_norm)
 title('Speaker Verification Likelihood (iVector Model)');
 xlabel('Test # (Channel x Speaker)'); ylabel('Model #');
 colorbar; axis xy; drawnow;
@@ -80,7 +84,7 @@ for ix = 1 : speakers,
     answers((ix-1)*channels+b : (ix-1)*channels+b+channels-1) = 1;
 end
 
-iv_scores = reshape(iv_scores', speakers_test*channels_test* speakers_test, 1);
-eer = compute_eer_2(iv_scores, answers, true);
+iv_scores_final = reshape(iv_scores_norm', speakers_test*channels_test* speakers_test, 1);
+eer = compute_eer_2(iv_scores_final, answers, true);
 
 end
