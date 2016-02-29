@@ -32,6 +32,8 @@ if( exist(folder_name,'dir') == 0)
     mkdir(folder_name);
 end
 
+disp( ['Saving data in :', folder_name]);
+
 name_count = folderNameCount('perc',folder_name);
 
 last_name = [num2str(name_count),'_', file_name];
