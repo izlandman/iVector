@@ -6,6 +6,10 @@
 
 function fullUbmBuild(file_list, mixtures, workers)
 
+cluster = parcluster('local');
+cluster.NumWorkers = workers;
+parpool(workers);
+
 % forces populateUBMfolder to return results
 full = 1;
 
