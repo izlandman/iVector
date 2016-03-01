@@ -1,4 +1,4 @@
-% find the number of folders sharing the same keyword inthe present
+% find the number of folders sharing the same keyword in the present
 % directory
 
 function folder_count = folderCount(input_string)
