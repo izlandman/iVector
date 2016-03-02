@@ -25,7 +25,7 @@ parfor i=1:file_count
     [b{i},c{i},~] = fileparts(file_list{i});
     d{i} = strsplit(b{i},root_directory);
     try
-        melTestTrainSplit_2(a(i).set_c,split,strcat('.\_split',d{i}{end}),c{i});
+        melTestTrainSplit_2(a(i).set_c,split,strcat('_split',d{i}{end}),c{i});
     catch
         disp(['Train/Test Split Failed: ' file_list{i}]);
         disp(['d: ' d{i}{end}]);
