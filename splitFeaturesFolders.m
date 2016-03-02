@@ -10,14 +10,10 @@ parpool(workers);
 
 disp(['Starting directory: ',pwd]);
 
-cd(root_directory);
-
-disp(['Changed directory to: ',pwd]);
-
 % pulls all .mat files, so the directories need to be clean
-file_list = findMatchingFiles('.','.mat');
-disp(['First file: ',file_list{1}]);
-disp(['Last file: ',file_list{end}]);
+file_list = findMatchingFiles(root_directory,'.mat');
+disp(['First file: ' file_list{1}]);
+disp(['Last file: ' file_list{end}]);
 % assuming the file_list is only valid .mat files generated as feature sets
 
 file_count = numel(file_list);
@@ -28,7 +24,7 @@ parfor i=1:file_count
     [b{i},c{i},~] = fileparts(file_list{i});
     d{i} = strsplit(b{i},'.');
     try
-        melTestTrainSplit_2(a(i).set_c,split,strcat('/_split',d{i}(end)),c{i});
+        melTestTrainSplit_2(a(i).set_c,split,strcat('\_split',d{i}(end)),c{i});
     catch
         disp(['Train/Test Split Failed: ' file_list{i}]);
     end

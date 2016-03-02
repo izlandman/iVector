@@ -26,28 +26,34 @@ for k=1:row
 end
 
 % save split because it'll be unique every time you run this!
-folder_name = strcat(data_folder,'/','test_train-', file_name);
-disp(['test_train folder name: ', folder_name]);
+folder_name = strcat('.',data_folder,'\','test_train-', file_name);
+disp( folder_name );
+
+% check starting with this folder!
 if( exist(folder_name,'dir') == 0)
     % directy does not exist, makeone
     mkdir(folder_name);
 end
 
 name_count = folderNameCount('perc',folder_name);
-
 last_name = strcat( num2str(name_count),'_', file_name );
 
 % subfolder name, label the split
 percent_count = folderNameCount('perct_',folder_name);
 middle_name = strcat('perct_', num2str(split_percent),'_',num2str(percent_count));
 
-test_save = strcat(folder_name,'/',middle_name,'/','test_',last_name,'.mat');
-train_save = strcat(folder_name,'/',middle_name,'/','train_',last_name,'.mat');
+test_save = strcat(folder_name,'\',middle_name,'\','test_',last_name,'.mat');
+train_save = strcat(folder_name,'\',middle_name,'\','train_',last_name,'.mat');
+
+disp( test_save );
+disp( train_save );
 
 % check to see if folder exists
-if ( exist( strcat(folder_name,'/',middle_name), 'dir' ) == 0 )
-    mkdir( strcat(folder_name,'/',middle_name));
+if ( exist( strcat(folder_name,'\',middle_name), 'dir' ) == 0 )
+    mkdir( strcat(folder_name,'\',middle_name));
 end
+
+disp('Made folder to save training and testing.');
 
 if ( exist(test_save,'file') == 2 )
     delete(test_save,train_save);
@@ -57,5 +63,7 @@ else
     save(test_save,'test_set');
     save(train_save,'train_set');
 end
+
+disp( train_save );
 
 end
