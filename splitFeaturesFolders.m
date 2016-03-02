@@ -2,7 +2,14 @@
 % valid features to build training and testing samples. and populate the
 % folders with ubm models
 
-function splitFeaturesFolders(file_list,split)
+function splitFeaturesFolders(root_directory,split,workers)
+
+cluster = parcluster('local');
+cluster.NumWorkers = workers;
+parpool(workers);
+
+% pulls all .mat files, so the directories need to be clean
+file_list = findMatchingFiles(root_directory,'.mat');
 
 % assuming the file_list is only valid .mat files generated as feature sets
 
