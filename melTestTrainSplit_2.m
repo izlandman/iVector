@@ -26,28 +26,27 @@ for k=1:row
 end
 
 % save split because it'll be unique every time you run this!
-folder_name = [data_folder,'/','test_train-', file_name];
+folder_name = strcat(data_folder,'/','test_train-', file_name);
+disp(['test_train folder name: ', folder_name]);
 if( exist(folder_name,'dir') == 0)
     % directy does not exist, makeone
     mkdir(folder_name);
 end
 
-disp( ['Saving data in :', folder_name]);
-
 name_count = folderNameCount('perc',folder_name);
 
-last_name = [num2str(name_count),'_', file_name];
+last_name = strcat( num2str(name_count),'_', file_name );
 
 % subfolder name, label the split
 percent_count = folderNameCount('perct_',folder_name);
-middle_name = ['perct_', num2str(split_percent),'_',num2str(percent_count)];
+middle_name = strcat('perct_', num2str(split_percent),'_',num2str(percent_count));
 
-test_save = [folder_name,'/',middle_name,'/','test_',last_name,'.mat'];
-train_save = [folder_name,'/',middle_name,'/','train_',last_name,'.mat'];
+test_save = strcat(folder_name,'/',middle_name,'/','test_',last_name,'.mat');
+train_save = strcat(folder_name,'/',middle_name,'/','train_',last_name,'.mat');
 
 % check to see if folder exists
-if ( exist( [folder_name,'/',middle_name], 'dir' ) == 0 )
-    mkdir( [folder_name,'/',middle_name]);
+if ( exist( strcat(folder_name,'/',middle_name), 'dir' ) == 0 )
+    mkdir( strcat(folder_name,'/',middle_name));
 end
 
 if ( exist(test_save,'file') == 2 )
