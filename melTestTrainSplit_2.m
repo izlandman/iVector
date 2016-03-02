@@ -26,7 +26,7 @@ for k=1:row
 end
 
 % save split because it'll be unique every time you run this!
-folder_name = strcat('.',data_folder,'\','test_train-', file_name);
+folder_name = strcat(data_folder,'\','test_train-', file_name);
 disp( folder_name );
 
 % check starting with this folder!

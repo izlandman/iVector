@@ -4,10 +4,6 @@
 
 function splitFeaturesFolders(root_directory,split,workers)
 
-cluster = parcluster('local');
-cluster.NumWorkers = workers;
-parpool(workers);
-
 disp(['Starting directory: ',pwd]);
 
 % pulls all .mat files, so the directories need to be clean
@@ -17,16 +13,23 @@ disp(['Last file: ' file_list{end}]);
 % assuming the file_list is only valid .mat files generated as feature sets
 
 file_count = numel(file_list);
-disp(file_count);
+disp(['File count: ' num2str(file_count)]);
+
+cluster = parcluster('local');
+cluster.NumWorkers = workers;
+parpool(workers);
+
 parfor i=1:file_count
     % be careful since every feature set is labeled 'set_c'
     a(i) = load(file_list{i});
     [b{i},c{i},~] = fileparts(file_list{i});
-    d{i} = strsplit(b{i},'.');
+    d{i} = strsplit(b{i},root_directory);
     try
-        melTestTrainSplit_2(a(i).set_c,split,strcat('\_split',d{i}(end)),c{i});
+        melTestTrainSplit_2(a(i).set_c,split,strcat('.\_split',d{i}{end}),c{i});
     catch
         disp(['Train/Test Split Failed: ' file_list{i}]);
+        disp(['d: ' d{i}{end}]);
+        disp(['c: ' c{i}]);
     end
     
     
