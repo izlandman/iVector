@@ -26,7 +26,7 @@ for k=1:row
 end
 
 % save split because it'll be unique every time you run this!
-folder_name = strcat(data_folder,'\','test_train-', file_name);
+folder_name = strcat(data_folder,'/','test_train-', file_name);
 disp( folder_name );
 
 % check starting with this folder!
@@ -42,15 +42,15 @@ last_name = strcat( num2str(name_count),'_', file_name );
 percent_count = folderNameCount('perct_',folder_name);
 middle_name = strcat('perct_', num2str(split_percent),'_',num2str(percent_count));
 
-test_save = strcat(folder_name,'\',middle_name,'\','test_',last_name,'.mat');
-train_save = strcat(folder_name,'\',middle_name,'\','train_',last_name,'.mat');
+test_save = strcat(folder_name,'/',middle_name,'/','test_',last_name,'.mat');
+train_save = strcat(folder_name,'/',middle_name,'/','train_',last_name,'.mat');
 
 disp( test_save );
 disp( train_save );
 
 % check to see if folder exists
-if ( exist( strcat(folder_name,'\',middle_name), 'dir' ) == 0 )
-    mkdir( strcat(folder_name,'\',middle_name));
+if ( exist( strcat(folder_name,'/',middle_name), 'dir' ) == 0 )
+    mkdir( strcat(folder_name,'/',middle_name));
 end
 
 disp('Made folder to save training and testing.');
