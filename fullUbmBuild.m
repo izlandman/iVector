@@ -26,13 +26,13 @@ cluster.NumWorkers = workers;
 parpool(workers);
 
 parfor i=1:file_count
-    [a{i},~,~] = fileparts(file_list{i});
-    index(i,:) = splitNumbers(a{i});
+    [a,~,~] = fileparts(file_list{i});
+    index(i,:) = splitNumbers(a);
     disp(index(i,:));
     try
-        [~,ubm_results(i,:)] = populateUBMfolder(a{i},workers,full,mixtures);
+        [~,ubm_results(i,:)] = populateUBMfolder(a,workers,full,mixtures);
     catch
-        disp( [a{i},' failed to populate UBM folder'] );
+        disp( [a,' failed to populate UBM folder'] );
     end
 end
 
