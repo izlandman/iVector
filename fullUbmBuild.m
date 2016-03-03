@@ -4,7 +4,7 @@
 % workers, and the full flag. this is here to pass in arguments to the
 % populateUBMfolder function
 
-function fullUbmBuild(file_list, mixtures, workers)
+function fullUbmBuild(split_folder, mixtures, workers)
 
 cluster = parcluster('local');
 cluster.NumWorkers = workers;
@@ -12,6 +12,8 @@ parpool(workers);
 
 % forces populateUBMfolder to return results
 full = 1;
+
+file_list = findMatchingFiles(split_folder,'train_');
 
 file_count = numel(file_list);
 
