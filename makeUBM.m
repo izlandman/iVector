@@ -14,7 +14,7 @@ test_data = test_file.(var_name{1});
 ubm_count = folderNameCount('ubm',folder_name);
 
 % output file
-output_file = ['./',folder_name,'/ubm_',num2str(ubm_count),'_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),'.mat'];
+output_file = [folder_name,filesep,'ubm_',num2str(ubm_count),'_m',num2str(mixtures),'_i',num2str(iterations),'_f',num2str(ds_factor),'.mat'];
 
 % file parameters
 [speakers, channels] = size(train_data);

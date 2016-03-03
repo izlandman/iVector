@@ -30,8 +30,8 @@ error_ubm = zeros(train_count,mixture_count);
 ubm_results = cell(train_count,mixture_count);
 
 for k=1:train_count
-    input_file = [folder_name,'/',train_files{k}];
-    test_file = [folder_name,'/',test_files{k}];
+    input_file = [folder_name,filesep,train_files{k}];
+    test_file = [folder_name,filesep,test_files{k}];
     for i=1:mixture_count
         if( full == 1 )
         [ubm_results{k,i}, error_ubm(k,i)]=makeUBM(folder_name,...
@@ -43,8 +43,9 @@ for k=1:train_count
     end
 end
 
-save( [folder_name,'/','ubm_structs.mat'], 'ubm_results');
+save( [folder_name,filesep,'ubm_structs.mat'], 'ubm_results');
 if( full ~= 0 )
-    save( [folder_name,'/','ubm_errors.mat'], 'error_ubm');
+    save( [folder_name,filesep,'ubm_errors.mat'], 'error_ubm');
 end
+
 end

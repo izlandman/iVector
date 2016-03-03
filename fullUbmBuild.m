@@ -6,10 +6,6 @@
 
 function fullUbmBuild(split_folder, mixtures, workers)
 
-cluster = parcluster('local');
-cluster.NumWorkers = workers;
-parpool(workers);
-
 % forces populateUBMfolder to return results
 full = 1;
 
@@ -20,24 +16,43 @@ file_count = numel(file_list);
 % errors come back as double array based upon mixtures length
 num_mix = numel(mixtures);
 ubm_results = -1*ones(file_count,num_mix);
+index = zeros(file_count,2);
+
+poolobj = gcp('nocreate');
+delete(poolobj);
+
+cluster = parcluster('local');
+cluster.NumWorkers = workers;
+parpool(workers);
 
 parfor i=1:file_count
     [a{i},~,~] = fileparts(file_list{i});
+    index(i,:) = splitNumbers(a{i});
+    disp(index(i,:));
     try
         [~,ubm_results(i,:)] = populateUBMfolder(a{i},workers,full,mixtures);
     catch
         disp( [a{i},' failed to populate UBM folder'] );
-        failure_list{i} = file_list{i};
     end
 end
 
 % write results to file
-d = strsplit(a{1},'/');
+[a,~,~] = fileparts(file_list{1});
+d = strsplit(a,filesep);
 
-save_file = [ d{1}, '/', d{end}, '_ubm-results.mat'];
-failure_file = [ d{1}, '/', d{end}, '_ubm-failures.mat'];
+error_ind = [ index , ubm_results ];
 
-save(save_file,'ubm_results');
-save(failure_file,'failure_list');
+save_file = fullfile( d{1}, [d{end} '_ubm-results.mat']);
 
+save(save_file,'error_ind');
+
+end
+
+function [result] = splitNumbers(file_name)
+a = strsplit(file_name,filesep);
+b = strsplit(a{2},'_');
+c = strsplit(b{2},'R');
+subject_num = str2double(c{1}(2:end));
+trial_num = str2double(c{2});
+result = [subject_num trial_num];
 end
