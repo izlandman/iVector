@@ -13,7 +13,7 @@ switch nargin
         list = dir(folder_name);
     case 3
         % looks in all sub-directories
-        list = rdir([folder_name,'\**\']);
+        list = rdir([folder_name,filesep,'**',filesep]);
 end
 
 k = 1;
