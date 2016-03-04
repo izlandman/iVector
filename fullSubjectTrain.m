@@ -9,10 +9,14 @@ data_paths = folderFinder(root_directory,['perct_',num2str(split)],1);
 
 % determine how many paths are present for each subject
 total_paths = numel(data_paths);
+subject_paths = zeros(total_paths,1);
+q = cell(total_paths,1);
+subject_index = cell(total_paths,1);
 
 % sort out how  many channels there are!
 i = 1;
-while i < total_paths
+matched_paths = 0;
+while matched_paths < total_paths
     % add leading zeros and find subjects, i will increment only as valid
     % subjects are found!
     formated_subject = num2str(i,'%03.0f');
@@ -41,9 +45,25 @@ while i < total_paths
             test_set(:,j)= test_1.test_set;
         end
         % train and test set are created, save them to new location
+        file_labels = strsplit(subject_folders{1},filesep);
+        save_folder = ['_combine', filesep, formated_subject, filesep,...
+            file_labels{end-1}, filesep, file_labels{end} ];
         
+        % check starting with this folder!
+        if( exist(save_folder,'dir') == 0)
+            % directy does not exist, makeone
+            mkdir(save_folder);
+        end
+        
+        % file names
+        save( [save_folder, filesep, 'test.mat'], 'test_set');
+        save( [save_folder, filesep, 'train.mat'], 'train_set');
+        
+        % track what was built so the loop ends
+        matched_paths = sum(subject_paths);
     end
-    
+    % iterate to the next subject
+    i = i + 1;
 end
 
 end
