@@ -46,7 +46,7 @@ while matched_paths < total_paths
         end
         % train and test set are created, save them to new location
         file_labels = strsplit(subject_folders{1},filesep);
-        save_folder = ['_combine', filesep, formated_subject, filesep,...
+        save_folder = ['_combine', filesep, file_labels{end-2}, filesep,...
             file_labels{end-1}, filesep, file_labels{end} ];
         
         % check starting with this folder!
@@ -56,8 +56,8 @@ while matched_paths < total_paths
         end
         
         % file names
-        save( [save_folder, filesep, 'test.mat'], 'test_set');
-        save( [save_folder, filesep, 'train.mat'], 'train_set');
+        save( [save_folder, filesep, 'test_.mat'], 'test_set');
+        save( [save_folder, filesep, 'train_.mat'], 'train_set');
         
         % track what was built so the loop ends
         matched_paths = sum(subject_paths);
