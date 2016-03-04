@@ -1,4 +1,4 @@
-function [ubm,eer] = makeUBM(folder_name, train_file, test_file,  mixtures, iterations, ds_factor, workers)
+function [ubm,eer] = makeUBMnoPlots(folder_name, train_file, test_file,  mixtures, iterations, ds_factor, workers)
 
 % load the stored data into a new variable name
 train_file = load(train_file);
@@ -45,15 +45,16 @@ end
 gmm_scores = score_gmm_trials(gmm_speakers, reshape(test_data', speakers_test*channels_test,1), trials, ubm);
 
 % plots!
-figure('numbertitle','off','name','ubm  results');
-imagesc(reshape(gmm_scores,speakers_test*channels_test, speakers_test))
-title('Channel Verification Likelihood (GMM Model)');
-ylabel('Test # (Channel x Segment)'); xlabel('Channel #');
-colorbar; drawnow; axis xy;
+% figure('numbertitle','off','name','ubm  results');
+% imagesc(reshape(gmm_scores,speakers_test*channels_test, speakers_test))
+% title('Channel Verification Likelihood (GMM Model)');
+% ylabel('Test # (Channel x Segment)'); xlabel('Channel #');
+% colorbar; drawnow; axis xy;
 
 eer = compute_eer_2(gmm_scores, answers, true);
-display(eer);
+% display(eer);
 
 disp('makeUBM whos');
 whos
+clear train_data test_data train_file test_file gmm_speakers gmm_scores trials
 end

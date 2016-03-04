@@ -35,6 +35,8 @@ parfor i=1:file_count
         disp( [a,' failed to populate UBM folder'] );
     end
 end
+disp('fullUbmbuild whos');
+whos
 
 % write results to file
 [a,~,~] = fileparts(file_list{1});
